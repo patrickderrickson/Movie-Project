@@ -5,11 +5,70 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Movie API</title>
     </head>
+    <body>
 
-    <h1>My Favorite Films</h1>
-        <p>
-            This App will allow users to find information about their favorite films. 
-            Users will have the ability to create a profile with lists of their favorite movies.
-        </p>
+        <h1>My Favorite Films</h1>
+            <p>
+                This App will allow users to find information about their favorite films. 
+                Users will have the ability to create a profile with lists of their favorite movies.
+            </p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Request</th>
+                    <th>URL</th>
+                    <th>Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Return Every Movie</td>
+                    <td>GET</td>
+                    <td>'/movies'</td>
+                    <td>Returns an array of all JSON movie objects within</td>
+                </tr>
+                <tr>
+                    <td>Return a single Movie</td>
+                    <td>GET</td>
+                    <td>'/movies/:title'</td>
+                    <td>Returns a single JSON movie title object specified in the url</td>
+                </tr>
+                <tr>
+                    <td>Returns A Director</td>
+                    <td>GET</td>
+                    <td>'/movies/:director'</td>
+                    <td>Returns a single JSON director object specified in the url</td>
+                </tr>
+                <tr>
+                    <td>Returns A Genre</td>
+                    <td>GET</td>
+                    <td>'/movies/:genre'</td>
+                    <td>Returns a single JSON genre object specified in the url</td>
+                </tr>
+                <tr>
+                    <td>Allow Users to create an account</td>
+                    <td>POST</td>
+                    <td>'/users'</td>
+                    <td>Returns the JSON Object that that the user passed into the request</td>
+                </tr>
+                <tr>
+                    <td>Allow Users to update their account information</td>
+                    <td>PUT</td>
+                    <td>'/users/:username'</td>
+                    <td>Returns the JSON Object that that the user updated</td>
+                </tr>
+                <tr>
+                    <td>Allow Users to delete their account information</td>
+                    <td>DELETE</td>
+                    <td>'/users/deleteAccount'</td>
+                    <td>Returns the a text confirmation that the account was deleted</td>
+                </tr>
+            </tbody>
+        </table>
+
+    
+    </body>
 
     </html>
