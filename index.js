@@ -59,12 +59,19 @@ let myMovies = [
   }
 ];
 
+let users = [
+  {
+    username: 'PatrickDerrickson',
+    email: 'haha@gmail.com'
+  }
+]
+
 app.use(morgan('common'));
 app.use(express.static('public'));
 
 // GET requests
 app.get('/', (req, res) => {
-  res.send('Welcome to my favorite fantasy films!');
+  res.send('Welcome to my favorite films!');
 });
 
 app.get('/documentation', (req, res) => {                  
@@ -76,41 +83,35 @@ app.get('/movies', (req, res) => {
 });
 
 app.get('/movies/:title', (req, res) => {
-  res.json(myMovies.find((title) =>
-    { return myMovies.title === req.params.title }));
+  const movie = myMovies.find((movie) => movie.title === req.params.title );
+  res.json(movie);
 });
 
 app.get('/movies/:director', (req, res) => {
-  res.json(myMovies.find((director) =>
-    { return myMovies.director === req.params.director }));
+  const movie = myMovies.find((movie) => movie.director === req.params.director );
+  res.json(movie);
 });
 
 app.get('/movies/:genre', (req, res) => {
-  res.json(myMovies.find((genre) =>
-    { return myMovies.genre === req.params.genre }));
+  const movie = myMovies.find((movie) => movie.genre === req.params.genre );
+  res.json(movie);
 });
 
-app.post('/users', (req, res) => {
-  let newUser = req.body;
+app.get('/users' , (req, res) => {
+  res.send(users)
+  });
 
-  if (!newUser.name) {
-    const message = 'Missing name in request body';
-    res.status(400).send(message);
-  } else {
-    newUser.id = uuid.v4();
-    users.push(newUser);
-    res.status(201).send(newUser);
-  }
-});
+app.post('/users' , (req, res) => {
+  res.send(req.body)
+  });
+
+  app.put('/users/:username', (req, res) => {
+    res.send(req.body)
+  });
 
 // Deletes a user from our list by username
 app.delete('/users/:username', (req, res) => {
-  let user = users.find((user) => { return user.username === req.params.username });
-
-  if (user) {
-    user = users.filter((obj) => { return obj.username !== req.params.id });
-    res.status(201).send('User ' + req.params.username + ' was deleted.');
-  }
+  res.send('User has been deleted.')
 });
 
 app.use((err, req, res, next) => {
