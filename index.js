@@ -40,7 +40,7 @@ app.get('/movies', (req, res) => {
 
 //Get a specific movie by title
 app.get('/movies/:Title', (req, res) => {
-  Movies.findOne({ Title: req.params.Title })
+  movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       res.json(movie);
     })
@@ -52,7 +52,7 @@ app.get('/movies/:Title', (req, res) => {
 
 //Get a movies by director
 app.get('/movies/director/:name', (req, res) => {
-  Movies.findOne({ 'director.name': req.params.name })
+  movies.findOne({ 'director.name': req.params.name })
     .then((director) => {
       res.json(director);
     })
@@ -64,7 +64,7 @@ app.get('/movies/director/:name', (req, res) => {
 
 //Get a movies by genre
 app.get('/movies/genre/:name', (req, res) => {
-  Movies.findOne({ 'genrre.name': req.params.name })
+  movies.findOne({ 'genre.name': req.params.name })
     .then((genre) => {
       res.json(genre);
     })
@@ -76,7 +76,7 @@ app.get('/movies/genre/:name', (req, res) => {
 
 //Get all users
 app.get('/users', (req, res) => {
-  Users.find()
+  users.find()
     .then((users) => {
       res.status(201).json(users);
     })
