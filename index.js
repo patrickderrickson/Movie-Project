@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const models = require('./models.js');
 
 const movies = models.movies;
-const users = models.user;
+const users = models.users;
 
 //linking to mongo DB
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -65,8 +65,8 @@ app.get('/movies/director/:name', (req, res) => {
 //Get a movies by genre
 app.get('/movies/genre/:name', (req, res) => {
   movies.findOne({ 'genre.name': req.params.name })
-    .then((genre) => {
-      res.json(genre);
+    .then((genreName) => {
+      res.json(genreName);
     })
     .catch((err) => {
       console.error(err);
@@ -88,7 +88,7 @@ app.get('/users', (req, res) => {
 
 //Get a specific User by username
 app.get('/users/:Username', (req, res) => {
-  Users.findOne({ Username: req.params.Username })
+  users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
     })
@@ -99,7 +99,7 @@ app.get('/users/:Username', (req, res) => {
 });
 //Lets user create an account
 app.post('/users', (req, res) => {
-  Users.findOne({ Username: req.body.Username })
+  users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + 'already exists');
@@ -126,7 +126,7 @@ app.post('/users', (req, res) => {
 
   // Update a user's info, using their username
 app.put('/users/:Username', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+  users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
       Username: req.body.Username,
       Password: req.body.Password,
@@ -147,7 +147,7 @@ app.put('/users/:Username', (req, res) => {
 
 // This code adds a movie the user's favorites
 app.post('/users/:Username/movies/:MovieID', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, {
+  users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteMovies: req.params.MovieID }
    },
    { new: true }, 
@@ -163,7 +163,7 @@ app.post('/users/:Username/movies/:MovieID', (req, res) => {
 
 // This code delets a movie from a user's favorites
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, {
+  users.findOneAndUpdate({ Username: req.params.Username }, {
      $pull: { FavoriteMovies: req.params.MovieID }
    },
    { new: true }, 
@@ -179,7 +179,7 @@ app.delete('/users/:Username/movies/:MovieID', (req, res) => {
 
 // Deletes a user from our list by username
 app.delete('/users/:Username', (req, res) => {
-  Users.findOneAndRemove({ Username: req.params.Username })
+  users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
         res.status(400).send(req.params.Username + ' was not found');
