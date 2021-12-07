@@ -9,7 +9,9 @@ let movieSchema = mongoose.Schema({
     },
     Director: {
       Name: String,
-      Bio: String
+      Bio: String,
+      Birth: String,
+      Death: String
     },
     ImagePath: String,
     Featured: Boolean
@@ -18,6 +20,8 @@ let movieSchema = mongoose.Schema({
   let directorSchema = mongoose.Schema({
     Name: {type: String, required: true},
     Bio: {type: String, required: true},
+    Birth: {type: String, required: true},
+    Death: {type: String, required: true},
   });
 
   let genreSchema = mongoose.Schema({
