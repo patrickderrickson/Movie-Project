@@ -1,8 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
-bodyParser = require('body-parser'),
+const bodyParser = require('body-parser'),
 uuid = require('uuid');
-app = express();
+const app = express();
 
 const mongoose = require('mongoose');
 const models = require('./models.js');
