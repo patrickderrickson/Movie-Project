@@ -4,6 +4,8 @@ const bodyParser = require('body-parser'),
 uuid = require('uuid');
 const app = express();
 
+const { check, validationResult } = require('express-validator');
+
 const mongoose = require('mongoose');
 const models = require('./models.js');
 
@@ -104,11 +106,27 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (re
     });
 });
 //Lets user create an account
-app.post('/users', (req, res) => {
+app.post('/users', 
+[
+check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ], (req, res) => {
+
+  // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+(req, res) => {
+  let hashedPassword = users.hashPassword(req.body.Password);
   users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
+        return res.status(400).send(req.body.Username + ' already exists');
       } else {
         users.create({
             Username: req.body.Username,
@@ -199,6 +217,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false}), 
 });
 
 // listen for requests
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
