@@ -13,7 +13,8 @@ const movies = models.movies;
 const users = models.users;
 
 //linking to mongo DB
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
   
 
 app.use(morgan('common'));
@@ -108,20 +109,18 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false}), (re
 //Lets user create an account
 app.post('/users', 
 [
-check('Username', 'Username is required').isLength({min: 5}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail()
-  ], (req, res) => {
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
 
-  // check the validation object for errors
-    let errors = validationResult(req);
+// check the validation object for errors
+  let errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-(req, res) => {
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
   let hashedPassword = users.hashPassword(req.body.Password);
   users.findOne({ Username: req.body.Username })
     .then((user) => {
