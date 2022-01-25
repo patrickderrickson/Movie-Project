@@ -127,9 +127,11 @@ app.post('/users',
       if (user) {
         return res.status(400).send(req.body.Username + ' already exists');
       } else {
-        users.create({
+        userSchema.statics.hashPassword = (password) => {
+          const password = bcrypt.hashSync(req.body.Password, 10);
+          users.create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: password,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -138,6 +140,7 @@ app.post('/users',
           console.error(error);
           res.status(500).send('Error: ' + error);
         })
+        };
       }
     })
     .catch((error) => {
