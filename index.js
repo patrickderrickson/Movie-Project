@@ -127,11 +127,11 @@ app.post('/users',
       if (user) {
         return res.status(400).send(req.body.Username + ' already exists');
       } else {
-        users.statics.hashPassword = (password) => {
-          const hashedpassword1 = bcrypt.hashSync(req.body.Password, 10);
+        users.hashPassword = (password) => {
+          const hashedpassword = bcrypt.hashSync(req.body.Password, 10);
           users.create({
             Username: req.body.Username,
-            Password: hashedpassword1,
+            Password: hashedpassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
