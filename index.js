@@ -128,10 +128,10 @@ app.post('/users',
         return res.status(400).send(req.body.Username + ' already exists');
       } else {
         userSchema.statics.hashPassword = (password) => {
-          const password = bcrypt.hashSync(req.body.Password, 10);
+          const hashedpassword = bcrypt.hashSync(req.body.Password, 10);
           users.create({
             Username: req.body.Username,
-            Password: password,
+            Password: hashedpassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
