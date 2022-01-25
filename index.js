@@ -121,17 +121,15 @@ app.post('/users',
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  //let hashedPassword = users.hashPassword(req.body.Password);
+  let hashedPassword = users.hashPassword(req.body.Password);
   users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + ' already exists');
       } else {
-        users.hashPassword = (password) => {
-          const hashedpassword = bcrypt.hashSync(req.body.Password, 10);
-          users.create({
+        users.create({
             Username: req.body.Username,
-            Password: hashedpassword,
+            Password: hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -140,7 +138,6 @@ app.post('/users',
           console.error(error);
           res.status(500).send('Error: ' + error);
         })
-        };
       }
     })
     .catch((error) => {
