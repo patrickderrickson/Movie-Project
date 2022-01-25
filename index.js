@@ -121,17 +121,17 @@ app.post('/users',
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
-  let hashedPassword = users.hashPassword(req.body.Password);
+  //let hashedPassword = users.hashPassword(req.body.Password);
   users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
         return res.status(400).send(req.body.Username + ' already exists');
       } else {
-        userSchema.statics.hashPassword = (password) => {
-          const hashedpassword = bcrypt.hashSync(req.body.Password, 10);
+        users.statics.hashPassword = (password) => {
+          const hashedpassword1 = bcrypt.hashSync(req.body.Password, 10);
           users.create({
             Username: req.body.Username,
-            Password: hashedpassword,
+            Password: hashedpassword1,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
