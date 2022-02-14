@@ -33,7 +33,7 @@ app.get('/documentation', (req, res) => {
   res.sendFile('public/documentation.html', { root: __dirname });
 });
 
-app.get('/movies', passport.authenticate('jwt', { session: false}), 
+app.get('/movies',
   (req, res) => {
   movies.find()
     .then((movies) => {
